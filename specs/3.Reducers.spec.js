@@ -7,7 +7,7 @@ describe("Reducers", () => {
     it('reducers are functions', () => {
       const reducer = (state, action) => state;
 
-      expect(solveme).toBeInstanceOf(Function);
+      expect(reducer).toBeInstanceOf(Function);
     });
 
     it('reducers returns state if they have nothing to do', () => {
@@ -19,7 +19,7 @@ describe("Reducers", () => {
     it('reducers initializes state when undefined', () => {
       const reducer = (state = 'initial', action) => state;
 
-      expect(solveme).toBe(reducer());
+      expect('initial').toBe(reducer());
     });
 
     it('reducers applies received action', () => {
@@ -30,13 +30,13 @@ describe("Reducers", () => {
         return state;
       };
       const action = {
-        type: 'CHANGE_STATE', 
+        type: 'CHANGE_STATE',
         newState: 'final',
       };
 
-      expect(solveme).toBe(reducer(undefined, {}));
-      expect(solveme).toBe(reducer('initial', {}));
-      expect(solveme).toBe(reducer('initial', action));
+      expect('initial').toBe(reducer(undefined, {}));
+      expect('initial').toBe(reducer('initial', {}));
+      expect('final').toBe(reducer('initial', action));
     });
 
     it('reducers computes new state from previous', () => {
@@ -47,12 +47,12 @@ describe("Reducers", () => {
         return state;
       };
       const action = {
-        type: 'INCREMENT', 
+        type: 'INCREMENT',
       };
 
-      expect(solveme).toBe(reducer(undefined, {}));
-      expect(solveme).toBe(reducer(0, {}));
-      expect(solveme).toBe(reducer(0, action));
+      expect(0).toBe(reducer(undefined, {}));
+      expect(0).toBe(reducer(0, {}));
+      expect(1).toBe(reducer(0, action));
     });
 
     it('creates new objects for each possible value', () => {
@@ -63,13 +63,13 @@ describe("Reducers", () => {
         return state;
       };
       const action = {
-        type: 'APPEND', 
+        type: 'APPEND',
         value: 1
       };
 
-      expect(solveme).toEqual(reducer(undefined, {}));
-      expect(solveme).toEqual(reducer([], {}));
-      expect(solveme).toEqual(reducer([], action));
+      expect([]).toEqual(reducer(undefined, {}));
+      expect([]).toEqual(reducer([], {}));
+      expect([1]).toEqual(reducer([], action));
     });
 
     it('never changes the same object', () => {
@@ -80,15 +80,15 @@ describe("Reducers", () => {
         return state;
       };
       const action = {
-        type: 'APPEND', 
+        type: 'APPEND',
         value: 1
       };
 
       const prevState = [];
       const nextState = reducer(prevState, action);
 
-      expect(solveme).toEqual(prevState);
-      expect(solveme).toEqual(nextState);
+      expect([]).toEqual(prevState);
+      expect([1]).toEqual(nextState);
     });
 
     it('returns the same instance state if no action is executed', () => {
@@ -102,7 +102,7 @@ describe("Reducers", () => {
       const prevState = [];
       const nextState = reducer(prevState, {});
 
-      expect(solveme).toBe(nextState);
+      expect(prevState).toBe(nextState);
     });
 
   });
@@ -130,17 +130,17 @@ describe("Reducers", () => {
 
     it('combines both initial values into a single object with each reducers name as property key', () => {
       const state = reducer(undefined, {});
-      expect(solveme).toMatchObject(state);
+      expect({name: 'noname', list: [] }).toMatchObject(state);
     });
 
     it('computes actions of all of its reducers [SET_NAME]', () => {
       const state = reducer(undefined, { type: 'SET_NAME', name: 'jack' });
-      expect(solveme).toMatchObject(state);
+      expect({name: 'jack', list: [] }).toMatchObject(state);
     });
 
     it('computes actions of all of its reducers [APPEND]', () => {
       const state = reducer(undefined, { type: 'APPEND', value: 'barker' });
-      expect(solveme).toMatchObject(state);
+      expect({name: 'noname', list: [ 'barker'] }).toMatchObject(state);
     });
 
   });
